@@ -1,0 +1,73 @@
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">REGISTRATION FORM</h2>
+        <div class="container">
+            <form class="row g-3 needs-validation" [formGroup]="RegistrationForm">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="firstName" class="col-form-label">FIRST NAME:</label>
+                        <input type="text" id="firstName" name="firstName" class="form-control"
+                            formControlName="firstName" />
+                        <div class="text-danger"
+                            *ngIf="RegistrationForm.controls['firstName'].invalid  && (RegistrationForm.controls['firstName'].touched || isFormSubmitted || RegistrationForm.controls['firstName'].dirty)">
+                            <span *ngIf="RegistrationForm.controls['firstName'].errors?.['required']">First Name is
+                                required</span>
+                            <span *ngIf="RegistrationForm.controls['firstName'].errors?.['minlength']">Minimum 3 Letters
+                                are required</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastName" class="col-form-label">LAST NAME:</label>
+                        <input type="text" id="lastName" name="lastName" class="form-control"
+                            formControlName="lastName" />
+                        <div class="text-danger"
+                            *ngIf="RegistrationForm.controls['lastName'].invalid  && (RegistrationForm.controls['lastName'].touched || isFormSubmitted || RegistrationForm.controls['lastName'].dirty)">
+                            <span *ngIf="RegistrationForm.controls['lastName'].errors?.['required']">Last Name is
+                                required</span>
+                            <span *ngIf="RegistrationForm.controls['lastName'].errors?.['minlength']">Minimum 3
+                                letters</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="col-form-label">EMAIL:</label>
+                        <input type="text" id="email" name="email" class="form-control" formControlName="email" />
+                        <div class="text-danger" *ngIf="RegistrationForm.controls['email'].invalid  && (RegistrationForm.controls['email'].touched || isFormSubmitted || RegistrationForm.controls['email'].dirty)">
+                        <span *ngIf="RegistrationForm.controls['email'].errors?.['required']">Email is required</span>
+                        <span *ngIf="RegistrationForm.controls['email'].errors?.['email']">Enter a valid Email</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label for="phoneNumber" class="col-form-label">PHONENUMBER:</label>
+                        <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
+                            formControlName="phoneNumber" />
+                        <div class="text-danger" *ngIf="RegistrationForm.controls['phoneNumber'].invalid && (RegistrationForm.controls['phoneNumber'].touched || isFormSubmitted || RegistrationForm.controls['phoneNumber'].dirty)">
+                             <span *ngIf="RegistrationForm.controls['phoneNumber'].errors?.['required']">Phone Number is required</span>   
+                            
+                        </div>    
+                    </div>
+                    <div class="col-md-6 ">
+
+                        <label for="role" class="col-form-label mr-3">ROLE:</label>
+                        <br />
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="employer" name="employer" class="form-check-input"
+                                formControlName="isEmployer" />
+                            <label for="employer" class="form-check-label">Employer</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="jobseeker" name="jobseeker" class="form-check-input"
+                                formControlName="isJobseeker" />
+                            <label for="jobseeker" class="form-check-label">Jobseeker</label>
+                        </div>
+                        <div class="text-danger" *ngIf="isRoleinvalid">
+                        <span >Please Select any one Role</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="RegisterationButton" class="btn btn-info" (click)="RegisterButton()">REGISTER</button>
+            </form>
+        </div>
+    </div>
+</div>
