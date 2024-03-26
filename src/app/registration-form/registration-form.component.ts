@@ -14,11 +14,9 @@ import { UserRegistrationDetailsService } from '../shared/user-registration-deta
 
 function CheckOnlyOneCheckbox():ValidatorFn{
   return (control:AbstractControl) :{[key:string]:any} | null =>{
-    const values= control.value;
-    const checkCheckboxes=Object.values(values).filter(value=> value===true);
-
-    const numberOfCheckedBoxes=checkCheckboxes.length;
-    if(numberOfCheckedBoxes===1){
+    const isEmployer=control.get('isEmployer')?.value;
+    const isJobseeker=control.get('isJobseeker')?.value;
+    if((isEmployer && !isJobseeker) || (!isEmployer && isJobseeker) || (!isEmployer && !isJobseeker)){
       return null;
     }
     else{
