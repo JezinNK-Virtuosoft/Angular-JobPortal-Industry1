@@ -1,15 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { UsertypeMasterService,UserType } from '../shared/usertype-master.service';
+import { UserRegistrationDetailsService } from '../shared/user-registration-details.service';
 
+function CheckOnlyOneCheckbox():ValidatorFn{
+  return (control:AbstractControl) :{[key:string]:any} | null =>{
+    const values= control.value;
+    const checkCheckboxes=Object.values(values).filter(value=> value===true);
 
+    const numberOfCheckedBoxes=checkCheckboxes.length;
+    if(numberOfCheckedBoxes===1){
+      return null;
+    }
+    else{
+      return {'onlyOneCheckboxAllowed':true};
+    }
+  }
+}
 @Component({
   selector: 'app-registration-form',
   standalone: true,
@@ -21,18 +37,20 @@ export class RegistrationFormComponent {
   RegistrationForm: FormGroup;
   isFormSubmitted: boolean = false;
   usertype;
-  constructor(public userTypeService:UsertypeMasterService) {
+  constructor(public userTypeService:UsertypeMasterService,private userDetailsRegistration:UserRegistrationDetailsService) {
     this.usertype=UserType;
     this.RegistrationForm = new FormGroup({
       firstName: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(15),
+        Validators.pattern(userDetailsRegistration.regexPattern.NameRegex)
       ]),
       lastName: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(15),
+        Validators.pattern(userDetailsRegistration.regexPattern.NameRegex)
       ]),
       email: new FormControl('', [
         Validators.required,
@@ -43,9 +61,12 @@ export class RegistrationFormComponent {
         Validators.required,
         Validators.maxLength(10),
         Validators.minLength(10),
+        Validators.pattern(userDetailsRegistration.regexPattern.PhoneNumber)
       ]),
       isEmployer: new FormControl(false),
       isJobseeker: new FormControl(false),
+    },{
+      validators:CheckOnlyOneCheckbox()
     });
   }
 
@@ -57,14 +78,9 @@ export class RegistrationFormComponent {
   }
 
   get isRoleinvalid() {
-    return (
-      this.RegistrationForm.get('isEmployer')?.invalid &&
-      this.RegistrationForm.get('isJobseeker')?.invalid &&
-      (this.RegistrationForm.get('isEmployer')?.touched ||
-        this.RegistrationForm.get('isJobseeker')?.touched ||
-        this.isFormSubmitted ||
-        this.RegistrationForm.get('isEmployer')?.dirty ||
-        this.RegistrationForm.get('isJobseeker')?.dirty)
-    );
+    const isEmployerChecked= this.RegistrationForm.get('isEmployer')?.value;
+    const isJobseekerChecked=this.RegistrationForm.get('isJobseeker')?.value;
+
+    return (!isEmployerChecked && !isJobseekerChecked) 
   }
-}
+} 

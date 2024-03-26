@@ -14,6 +14,8 @@
                                 required</span>
                             <span *ngIf="RegistrationForm.controls['firstName'].errors?.['minlength']">Minimum 3 Letters
                                 are required</span>
+                            <br />
+                            <span *ngIf="RegistrationForm.controls['firstName'].errors?.['pattern']">First Character should be Capital and Only Alphabets allowed</span>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -26,6 +28,8 @@
                                 required</span>
                             <span *ngIf="RegistrationForm.controls['lastName'].errors?.['minlength']">Minimum 3
                                 letters</span>
+                                <br/>
+                            <span *ngIf="RegistrationForm.controls['lastName'].errors?.['pattern']">First Character should be Capital and Only Alphabets allowed</span>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -33,6 +37,7 @@
                         <input type="text" id="email" name="email" class="form-control" formControlName="email" />
                         <div class="text-danger" *ngIf="RegistrationForm.controls['email'].invalid  && (RegistrationForm.controls['email'].touched || isFormSubmitted || RegistrationForm.controls['email'].dirty)">
                         <span *ngIf="RegistrationForm.controls['email'].errors?.['required']">Email is required</span>
+                        <br />
                         <span *ngIf="RegistrationForm.controls['email'].errors?.['email']">Enter a valid Email</span>
                         </div>
                     </div>
@@ -43,8 +48,10 @@
                         <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
                             formControlName="phoneNumber" />
                         <div class="text-danger" *ngIf="RegistrationForm.controls['phoneNumber'].invalid && (RegistrationForm.controls['phoneNumber'].touched || isFormSubmitted || RegistrationForm.controls['phoneNumber'].dirty)">
-                             <span *ngIf="RegistrationForm.controls['phoneNumber'].errors?.['required']">Phone Number is required</span>   
-                            
+                             <span *ngIf="RegistrationForm.controls['phoneNumber'].errors?.['required']">Phone Number is required</span>
+                               
+                             <span *ngIf="RegistrationForm.controls['phoneNumber'].errors?.['pattern']">Only 10 digits are allowed</span>
+                                
                         </div>    
                     </div>
                     <div class="col-md-6 ">
@@ -61,9 +68,13 @@
                                 formControlName="isJobseeker" [value]="usertype.Jobseeker" />
                             <label for="jobseeker" class="form-check-label">Jobseeker</label>
                         </div>
-                        <div class="text-danger" *ngIf="isRoleinvalid">
-                        <span >Please Select any one Role</span>
+                        <div class="text-danger" *ngIf="RegistrationForm.hasError('onlyOneCheckboxAllowed') && isFormSubmitted">
+                            <span>Choose only one Role</span>
                         </div>
+                        <div class="text-danger" *ngIf="isRoleinvalid && isFormSubmitted">
+                        <span >Role is required</span>
+                        </div>
+                        
                     </div>
                 </div>
                 <button type="button" class="RegisterationButton" class="btn btn-info" (click)="RegisterButton()">REGISTER</button>
