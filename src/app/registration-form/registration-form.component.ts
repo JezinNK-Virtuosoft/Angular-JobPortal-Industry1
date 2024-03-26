@@ -7,6 +7,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { UsertypeMasterService,UserType } from '../shared/usertype-master.service';
+
 
 @Component({
   selector: 'app-registration-form',
@@ -18,7 +20,9 @@ import {
 export class RegistrationFormComponent {
   RegistrationForm: FormGroup;
   isFormSubmitted: boolean = false;
-  constructor() {
+  usertype;
+  constructor(public userTypeService:UsertypeMasterService) {
+    this.usertype=UserType;
     this.RegistrationForm = new FormGroup({
       firstName: new FormControl('', [
         Validators.required,

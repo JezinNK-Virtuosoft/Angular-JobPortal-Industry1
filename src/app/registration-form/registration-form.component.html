@@ -53,12 +53,12 @@
                         <br />
                         <div class="form-check form-check-inline">
                             <input type="checkbox" id="employer" name="employer" class="form-check-input"
-                                formControlName="isEmployer" />
+                                formControlName="isEmployer" [value]="usertype.Employer" />
                             <label for="employer" class="form-check-label">Employer</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input type="checkbox" id="jobseeker" name="jobseeker" class="form-check-input"
-                                formControlName="isJobseeker" />
+                                formControlName="isJobseeker" [value]="usertype.Jobseeker" />
                             <label for="jobseeker" class="form-check-label">Jobseeker</label>
                         </div>
                         <div class="text-danger" *ngIf="isRoleinvalid">
