@@ -35,7 +35,8 @@ export class RegistrationFormComponent {
   RegistrationForm: FormGroup;
   isFormSubmitted: boolean = false;
   usertype;
-  constructor(public userTypeService:UsertypeMasterService,private userDetailsRegistration:UserRegistrationDetailsService) {
+  constructor(public userTypeService:UsertypeMasterService,private userDetailsRegistration:UserRegistrationDetailsService ) {
+    
     this.usertype=UserType;
     this.RegistrationForm = new FormGroup({
       firstName: new FormControl('', [
@@ -70,9 +71,12 @@ export class RegistrationFormComponent {
 
   RegisterButton() {
     const isFormValid = this.RegistrationForm.valid;
-    debugger;
-
     this.isFormSubmitted = true;
+    if(isFormValid){
+      this.userDetailsRegistration.RegisterUsers(this.RegistrationForm.value).subscribe((result)=>{
+          console.log(result);
+      })
+    }
   }
 
   get isRoleinvalid() {
